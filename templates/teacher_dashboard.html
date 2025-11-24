@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+
+<h2 style="margin-bottom:20px;">👨‍🏫 Teacher Dashboard</h2>
+
+<div class="stats">
+
+    <div class="card">
+        <h3>📚 My Groups</h3>
+        <p style="font-size:24px; margin:0;">{{ groups.count }}</p>
+    </div>
+
+    <div class="card" style="background:#27ae60;">
+        <h3>👨‍🎓 Total Students</h3>
+        <p style="font-size:24px; margin:0;">{{ students_count }}</p>
+    </div>
+
+</div>
+
+<hr style="margin:30px 0;">
+
+<h3>📌 My Groups</h3>
+
+<div class="teacher-cards">
+
+    {% for g in groups %}
+    <div class="teacher-card" style="width:240px;">
+        <strong style="font-size:17px;">{{ g.title }}</strong><br><br>
+
+        <b>Start:</b> {{ g.start_date }} <br>
+        <b>Students:</b> {{ g.students.count }} <br>
+
+        <a href="{% url 'group_detail' g.id %}"
+           style="margin-top:10px; display:inline-block; background:#3498db;
+                  padding:6px 12px; color:#fff; border-radius:6px;">
+            Open Group
+        </a>
+    </div>
+    {% empty %}
+    <p>No groups yet.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

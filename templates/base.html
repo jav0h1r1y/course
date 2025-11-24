@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Flex Edu{% endblock %}</title>
+    <style>
+        /* Basic body and links */
+        body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f4f4; }
+        a { text-decoration:none; color:inherit; }
+
+        /* Header */
+        header { background:#2c3e50; color:#fff; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+        header h1 { margin:0; font-size:24px; }
+
+        /* Navbar */
+        .nav-list { list-style:none; display:flex; gap:15px; margin:0; padding:0; flex-wrap:wrap; }
+        .nav-list li a { color:#fff; padding:5px 10px; display:block; }
+
+        /* Mobile menu toggle */
+        .menu-toggle { display:none; cursor:pointer; font-size:24px; }
+
+        /* Main content */
+        main { padding:20px; }
+
+        /* Cards */
+        .stats { display:flex; gap:20px; margin-bottom:20px; flex-wrap:wrap; }
+        .card { background:#3498db; color:#fff; padding:15px; border-radius:8px; flex:1; text-align:center; min-width:150px; }
+        .teacher-cards { display:flex; flex-wrap:wrap; gap:20px; }
+        .teacher-card { border:1px solid #ccc; padding:10px; border-radius:8px; width:200px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+        .teacher-card a { display:inline-block; margin-top:5px; color:#2980b9; }
+
+        /* Forms */
+        .form-container { width:90%; max-width:400px; margin:20px auto; padding:20px; border:1px solid #ccc; border-radius:8px; background:#fff; }
+        input, select, button { width:100%; margin:5px 0 15px 0; padding:8px; border-radius:5px; border:1px solid #ccc; }
+        button { background:#3498db; color:#fff; border:none; cursor:pointer; }
+        button:hover { background:#2980b9; }
+
+        /* Tables */
+        table { font-size:13px; border-collapse: collapse; width:100%; background:#fff; }
+        td, th { border:1px solid #ccc; min-width:40px; text-align:center; padding:4px; }
+        thead { background:#3498db; color:#fff; }
+
+        /* Mobile styles */
+        @media(max-width:768px){
+            .nav-list { display:none; flex-direction:column; width:100%; }
+            .menu-toggle { display:block; }
+            .nav-list.active { display:flex !important; flex-direction:column; width:100%; background:#2c3e50; }
+            table { display:block; overflow-x:auto; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Flex Edu</h1>
+    <div class="menu-toggle" id="mobile-menu">☰</div>
+    <ul class="nav-list">
+        {% if request.user.is_authenticated %}
+            {% if request.user.teacher.role == 'teacher' %}
+                <!-- Teacher navbar -->
+                <li><a href="{% url 'teacher_dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'teacher_profile' request.user.teacher.id %}">My Profile</a></li>
+            {% else %}
+                <!-- Admin navbar -->
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'add_teacher' %}">Add Teacher</a></li>
+                <li><a href="{% url 'teacher_list' %}">Teacher List</a></li>
+                <li><a href="{% url 'add_group' %}">Add Group</a></li>
+                <li><a href="{% url 'group_list' %}">Group List</a></li>
+                <li><a href="{% url 'add_student' %}">Add Student</a></li>
+                <li><a href="{% url 'student_list' %}">Student List</a></li>
+            {% endif %}
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+    </ul>
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<script>
+    // Mobile menu toggle
+    const mobileMenu = document.getElementById("mobile-menu");
+    const navList = document.querySelector(".nav-list");
+    mobileMenu.addEventListener("click", () => {
+        navList.classList.toggle("active");
+    });
+</script>
+
+</body>
+</html>

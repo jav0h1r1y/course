@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ group.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ group.title }} – Attendance (1–18)</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student</th>
+                {% for d in days %}
+                    <th>{{ d }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in attendance_rows %}
+            <tr>
+                <td>{{ row.student.name }}</td>
+
+                {% for val in row.day_values %}
+                <td>
+                    <input type="text" name="att_{{ row.student.id }}_{{ forloop.counter }}"
+                           value="{{ val }}" maxlength="1" style="width:25px; text-align:center;">
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button type="submit" style="margin-top:20px;">Save</button>
+</form>
+
+{% endblock %}

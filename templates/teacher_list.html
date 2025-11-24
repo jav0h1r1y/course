@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Teacher List{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom:20px;">👨‍🏫 Teacher List</h2>
+
+<div class="teacher-cards" style="gap:20px;">
+    {% for teacher in teachers %}
+    <div class="teacher-card" style="width:240px; padding:15px;">
+        <strong style="font-size:17px;">{{ teacher.user.first_name }} {{ teacher.user.last_name }}</strong><br><br>
+        <p><strong>Username:</strong> {{ teacher.user.username }}</p>
+        <p><strong>Phone:</strong> {{ teacher.phone }}</p>
+        <p><strong>Role:</strong> {{ teacher.get_role_display }}</p>
+
+        <div style="margin-top:10px;">
+            <a href="{% url 'teacher_profile' teacher.id %}"
+               style="display:inline-block; background:#3498db;
+                      padding:6px 12px; color:#fff; border-radius:6px; margin-right:5px;">
+               Profile
+            </a>
+            <a href="{% url 'delete_teacher' teacher.id %}"
+               style="display:inline-block; background:#e74c3c;
+                      padding:6px 12px; color:#fff; border-radius:6px;">
+               Delete
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No teachers found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Student List{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom:20px;">👨‍🎓 Student List</h2>
+
+<div class="teacher-cards" style="gap:20px;">
+    {% for student in students %}
+    <div class="teacher-card" style="width:240px; padding:15px;">
+        <strong style="font-size:17px;">{{ student.name }}</strong><br><br>
+        <p><strong>Group:</strong> {{ student.group.title }}</p>
+
+        <div style="margin-top:10px;">
+            <a href="{% url 'delete_student' student.id %}"
+               style="display:inline-block; background:#e74c3c;
+                      padding:6px 12px; color:#fff; border-radius:6px;">
+               Delete
+            </a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No students found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

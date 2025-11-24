@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Group List{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom:20px;">📚 Group List</h2>
+
+<div class="teacher-cards">
+    {% for g in groups %}
+    <div class="teacher-card" style="width:240px;">
+        <strong style="font-size:17px;">{{ g.title }}</strong><br><br>
+        <b>Teacher:</b> {{ g.teacher.user.first_name }} {{ g.teacher.user.last_name }}<br>
+        <b>Start Date:</b> {{ g.start_date }}<br>
+        <b>Students:</b> {{ g.students.count }}<br>
+
+        <a href="{% url 'group_detail' g.id %}"
+           style="margin-top:10px; display:inline-block; background:#3498db;
+                  padding:6px 12px; color:#fff; border-radius:6px;">
+           Open Group
+        </a>
+
+        <a href="{% url 'delete_group' g.id %}"
+           style="margin-top:10px; display:inline-block; background:#e74c3c;
+                  padding:6px 12px; color:#fff; border-radius:6px;">
+           Delete
+        </a>
+    </div>
+    {% empty %}
+    <p>No groups found.</p>
+    {% endfor %}
+</div>
+{% endblock %}
